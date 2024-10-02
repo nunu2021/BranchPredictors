@@ -26,7 +26,8 @@ class GlobalHistBP : public BPredUnit
 
 
     // include any storage structures (e.g., buffers, counters) here
-
+    int* predictionTable;
+    int currentHistory;
 
     // include any helper functions here
 

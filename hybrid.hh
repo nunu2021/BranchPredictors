@@ -28,7 +28,14 @@ class HybridBP : public BPredUnit
 
 
     // include any storage structures (e.g., buffers, counters) here
+    int** localPHT;
+    int* localBHT;
+    int* globalHistory;
+    int* metaHistory;
+    int currentHistory;
 
+    bool gPrediction;
+    bool lPrediction;
 
     // include any helper functions here
 

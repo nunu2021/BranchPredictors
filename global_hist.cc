@@ -5,26 +5,50 @@
 */
 
 #include "cpu/pred/global_hist.hh"
+#include <stdlib.h>
+#include <math.h>
+#include <iostream>
 
 GlobalHistBP::GlobalHistBP(const GlobalHistBPParams *params)
     : BPredUnit(params)
     , historyLength(params->historyLength)
     // initialize other variables here
 {
+    int tableLength = pow(2, historyLength);
+    predictionTable = (int*) malloc(tableLength * sizeof(int));
+    for (int i = 0; i < tableLength; i++) {
+        predictionTable[i] = 3;
+    }
+    currentHistory = 0;
 }
 
 bool
 GlobalHistBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
-    // right now, this just always returns false
-    return false;
+    bool guess = false;
+    if (predictionTable[currentHistory] >= 4) {
+        guess = true;
+    }
+    return guess;
 }
 
 void
 GlobalHistBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
                  bool squashed, const StaticInstPtr & inst, Addr corrTarget)
 {
-    // right now, this does nothing
+    if (taken) {
+        predictionTable[currentHistory] += 1;
+        if (predictionTable[currentHistory] > 7) {
+            predictionTable[currentHistory] = 7;
+        }
+        currentHistory = (currentHistory / 2) + pow(2, historyLength - 1);
+    } else {
+        predictionTable[currentHistory] -= 1;
+        if (predictionTable[currentHistory] < 0) {
+            predictionTable[currentHistory] = 0;
+        }
+        currentHistory = (currentHistory / 2);
+    }
 }
 
 // add your helper functions here

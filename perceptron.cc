@@ -43,10 +43,8 @@ PerceptronBP::predictUsingPerceptron(int* perceptron) {
 
     lastPredictionValue = sum;
     if (sum > 0) {
-        lastPrediction = true;
         return true;
     } else {
-        lastPrediction = false;
         return false;
     }
 }
@@ -64,7 +62,8 @@ PerceptronBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
     int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
-    return predictUsingPerceptron(perceptron);
+    lastPrediction = predictUsingPerceptron(perceptron);
+    return lastPrediction;
 }
 
 void

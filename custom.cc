@@ -12,12 +12,13 @@ CustomBP::CustomBP(const CustomBPParams *params)
     : BPredUnit(params)
     , pcBits(params->pcBits)
     , historyLength(params->historyLength)
+    , localHistoryLength(params->localHistoryLength)
 
 
     
     // initialize other variables here
 {
-     // Initialize predition table and branch history
+     // Initialize prediction table and branch history
     int tableLength = pow(2, historyLength);
     predictionTable = (int*) malloc(tableLength * sizeof(int));
     for (int i = 0; i < tableLength; i++) {
@@ -36,7 +37,7 @@ CustomBP::CustomBP(const CustomBPParams *params)
         visited[i] = 0;
     }
 
-    unsigned int PHTLength = 1 << params->historyLength;
+    unsigned int PHTLength = 1 << params->LocalHistoryLength;
     PHT = new int[PHTLength];
     for(unsigned int i = 0; i < PHTLength; i++){
         PHT[i] = 3;
@@ -81,7 +82,7 @@ CustomBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
 {
     // update local history BP
     unsigned int mask = (1 << pcBits) - 1;
-    unsigned int phtMask = (1 << historyLength) -1;
+    unsigned int phtMask = (1 << localHistoryLength) -1;
 
     visited[branchAddr & mask]++;
 

@@ -35,7 +35,6 @@ LocalHistBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
     // check the PHT, and if value is less than 4, then return 
     unsigned int mask = (1 << pcBits) - 1;
 
-    // bpHistoryInt = &PHT[BHT[branchAddr & mask]];
     // fprintf(stderr, " %d is the lookup for address %d concat %d and hist %d \n", "string format", PHT[BHT[branchAddr & mask]], branchAddr, branchAddr & mask, BHT[branchAddr & mask]);
     return (PHT[BHT[branchAddr & mask]] > 3);
 
@@ -45,7 +44,6 @@ void
 LocalHistBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
                  bool squashed, const StaticInstPtr & inst, Addr corrTarget)
 {
-    // int * bpHistoryInt = ( int*)bpHistory;
     unsigned int mask = (1 << pcBits) - 1;
     unsigned int phtMask = (1 << historyLength) -1;
 

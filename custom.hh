@@ -18,9 +18,34 @@
 class CustomBP : public BPredUnit
 {
   private:
+    // parameters set by BranchPredictor.py
+    unsigned int pcBits;
+    unsigned int historyLength;
+    unsigned int localHistoryLength;
+    unsigned int gshareHistoryLength;
 
-    // include any parameters here
+   // Hybrid BP parameters
+    int** localPHT;
+    int* localBHT;
+    int* globalHistory;
+    int* metaHistory;
+    int currentHistory;
 
+    bool gPrediction;
+    bool lPrediction;
+
+    // Perceptron parameters
+    unsigned int trainingThreshold = 16;
+
+    // include any storage structures (e.g., buffers, counters) here
+    int** perceptronTable;
+    int globalHistoryP;
+    int lastPredictionValue;
+    bool lastPrediction;
+
+    // include any helper functions here
+    bool predictUsingPerceptron(int* perceptron);
+    void displayPerceptron(int* perceptron);
 
     // include any storage structures (e.g., buffers, counters) here
 

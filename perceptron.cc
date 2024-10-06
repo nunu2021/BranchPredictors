@@ -43,10 +43,8 @@ PerceptronBP::predictUsingPerceptron(int* perceptron) {
 
     lastPredictionValue = sum;
     if (sum > 0) {
-        lastPrediction = true;
         return true;
     } else {
-        lastPrediction = false;
         return false;
     }
 }
@@ -64,7 +62,8 @@ PerceptronBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
     int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
-    return predictUsingPerceptron(perceptron);
+    lastPrediction = predictUsingPerceptron(perceptron);
+    return lastPrediction;
 }
 
 void
@@ -75,7 +74,7 @@ PerceptronBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
     int* perceptron = perceptronTable[pcEnd];
 
     // Training
-    if ((lastPrediction != taken) || (unsigned int) abs(lastPredictionValue) < trainingThreshold) {
+    if ((lastPrediction != taken) || (unsigned int) abs(lastPredictionValue) <= trainingThreshold) {
         // Train weights
         for (unsigned int i = 0; i < historyLength; i++) {
             bool iHistory = ((globalHistory >> i) % 2) != 0;

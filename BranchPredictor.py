@@ -185,10 +185,10 @@ class CustomBP(BranchPredictor):
 
     # add your parameters here
      # use only these predefined parameters
-    pcBits = Param.Unsigned(4, "number of PC bits used to index PAp table")
+    pcBits = Param.Unsigned(8, "number of PC bits used to index PAp table")
     historyLength = Param.Unsigned(16, "length of history register")
-    localHistoryLength = Param.Unsigned(5, "length of history register used by PAp")
-    gshareHistoryLength = Param.Unsigned(20, "length of history register used by gshare")
+    localHistoryLength = Param.Unsigned(4, "length of history register used by PAp")
+    gshareHistoryLength = Param.Unsigned(4, "length of history register used by gshare")
     
 
 class TournamentBP(BranchPredictor):

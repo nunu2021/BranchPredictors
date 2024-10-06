@@ -37,7 +37,7 @@ CustomBP::CustomBP(const CustomBPParams *params)
         visited[i] = 0;
     }
 
-    unsigned int PHTLength = 1 << params->LocalHistoryLength;
+    unsigned int PHTLength = 1 << localHistoryLength;
     PHT = new int[PHTLength];
     for(unsigned int i = 0; i < PHTLength; i++){
         PHT[i] = 3;

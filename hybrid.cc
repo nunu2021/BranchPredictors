@@ -18,6 +18,9 @@ HybridBP::HybridBP(const HybridBPParams *params)
     // Initialize local history history table
     int BHTLength = pow(2, pcBits);
     localBHT = new int[BHTLength];
+    for (int i = 0; i < BHTLength; i++) {
+        localBHT[i] = 0;
+    }
 
     // Initialize local history prediciton table
     int localPHTLength = pow(2, localHistoryLength);

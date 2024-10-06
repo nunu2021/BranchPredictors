@@ -14,6 +14,7 @@ GlobalHistBP::GlobalHistBP(const GlobalHistBPParams *params)
     , historyLength(params->historyLength)
     // initialize other variables here
 {
+    // Initialize predition table and branch history
     int tableLength = pow(2, historyLength);
     predictionTable = (int*) malloc(tableLength * sizeof(int));
     for (int i = 0; i < tableLength; i++) {
@@ -25,6 +26,7 @@ GlobalHistBP::GlobalHistBP(const GlobalHistBPParams *params)
 bool
 GlobalHistBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
+    // Predict based on table value and cutoff
     bool guess = false;
     if (predictionTable[currentHistory] >= 4) {
         guess = true;
@@ -36,6 +38,7 @@ void
 GlobalHistBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
                  bool squashed, const StaticInstPtr & inst, Addr corrTarget)
 {
+    // Update history and prediction table
     if (taken) {
         predictionTable[currentHistory] += 1;
         if (predictionTable[currentHistory] > 7) {

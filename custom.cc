@@ -5,12 +5,16 @@
 */
 
 #include "cpu/pred/custom.hh"
+#include <math.h>
+#include <iostream>
 
 CustomBP::CustomBP(const CustomBPParams *params)
     : BPredUnit(params)
     , pcBits(params->pcBits)
+    , historyLength(params->historyLength)
     , localHistoryLength(params->localHistoryLength)
     , gshareHistoryLength(params->gshareHistoryLength)
+    
     // initialize other variables here
 {
     // Initialize local history history table
@@ -62,7 +66,7 @@ CustomBP::CustomBP(const CustomBPParams *params)
 }
 
 bool
-PerceptronBP::predictUsingPerceptron(int* perceptron) {
+CustomBP::predictUsingPerceptron(int* perceptron) {
     int sum = 0;
     for (unsigned int i = 0; i < historyLength; i++) {
         int iWeight = perceptron[historyLength - i];
@@ -91,7 +95,6 @@ CustomBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
      // Find meta predictor value
     int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
-    int metaPrediction = metaHistory[pcEnd];
 
     // Find gshare predictor value
     int index = (branchAddr & ((1 << gshareHistoryLength) - 1)) ^ currentHistory;
@@ -105,7 +108,7 @@ CustomBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
     gPrediction = (gPredictionValue >= 4);
     lPrediction = (lPredictionValue >= 4);
 
-    int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
+    pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
     bool pPrediction = predictUsingPerceptron(perceptron);
 
@@ -155,7 +158,7 @@ CustomBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
 
     // update perceptron BP
 
-    int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
+    pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
 
     // Training

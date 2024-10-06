@@ -20,6 +20,7 @@ class CustomBP : public BPredUnit
   private:
     // parameters set by BranchPredictor.py
     unsigned int pcBits;
+    unsigned int historyLength;
     unsigned int localHistoryLength;
     unsigned int gshareHistoryLength;
 

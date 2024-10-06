@@ -24,12 +24,17 @@ class PerceptronBP : public BPredUnit
     unsigned int historyLength;
 
     // include any other parameters here
-
+    unsigned int trainingThreshold = 16;
 
     // include any storage structures (e.g., buffers, counters) here
-
+    int** perceptronTable;
+    int globalHistory;
+    int lastPredictionValue;
+    bool lastPrediction;
 
     // include any helper functions here
+    bool predictUsingPerceptron(int* perceptron);
+    void displayPerceptron(int* perceptron);
 
   public:
 

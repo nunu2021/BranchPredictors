@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <queue>
+#include <stdio.h>
 #include "cpu/pred/bpred_unit.hh"
 #include "base/types.hh"
 #include "cpu/pred/bpred_unit.hh"
@@ -27,10 +28,10 @@ class LocalHistBP : public BPredUnit
     
 
     // TODO: need to include PHT Table
-    unsigned int BHT[1<<pcBits];
+     int* BHT;
     
     // TODO: need to include BHT Table
-    unsigned int PHT[historyLength<<1];
+     int* PHT;
 
 
 

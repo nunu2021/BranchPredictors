@@ -24,7 +24,7 @@ class PerceptronBP : public BPredUnit
     unsigned int historyLength;
 
     // include any other parameters here
-
+    
 
     // include any storage structures (e.g., buffers, counters) here
 

@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <queue>
+#include <stdio.h>
 #include "cpu/pred/bpred_unit.hh"
 #include "base/types.hh"
 #include "cpu/pred/bpred_unit.hh"
@@ -20,14 +21,18 @@ class LocalHistBP : public BPredUnit
   private:
 
     // parameters set by BranchPredictor.py
-    unsigned int pcBits;
-    unsigned int historyLength;
+    unsigned int pcBits; // is the number of pc bits we need to refer
+    unsigned int historyLength; // is the last n branch instructions
 
     // include any other parameters here
     
 
     // TODO: need to include PHT Table
+     int* BHT;
+    
     // TODO: need to include BHT Table
+     int* PHT;
+
 
 
     // include any storage structures (e.g., buffers, counters) here

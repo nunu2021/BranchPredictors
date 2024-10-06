@@ -75,7 +75,7 @@ PerceptronBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
     int* perceptron = perceptronTable[pcEnd];
 
     // Training
-    if ((lastPrediction != taken) || (unsigned int) abs(lastPredictionValue) < trainingThreshold) {
+    if ((lastPrediction != taken) || (unsigned int) abs(lastPredictionValue) <= trainingThreshold) {
         // Train weights
         for (unsigned int i = 0; i < historyLength; i++) {
             bool iHistory = ((globalHistory >> i) % 2) != 0;

@@ -45,7 +45,7 @@ void
 LocalHistBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
                  bool squashed, const StaticInstPtr & inst, Addr corrTarget)
 {
-    int * bpHistoryInt = ( int*)bpHistory;
+    // int * bpHistoryInt = ( int*)bpHistory;
     unsigned int mask = (1 << pcBits) - 1;
     unsigned int phtMask = (1 << historyLength) -1;
 

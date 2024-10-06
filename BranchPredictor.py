@@ -139,7 +139,7 @@ class GlobalHistBP(BranchPredictor):
     cxx_header = "cpu/pred/global_hist.hh"
 
     # use only these predefined parameters
-    historyLength = Param.Unsigned(16, "length of history register")
+    historyLength = Param.Unsigned(4, "length of history register")
     # do not add any more!
 
 
@@ -149,7 +149,7 @@ class LocalHistBP(BranchPredictor):
     cxx_header = "cpu/pred/local_hist.hh"
 
     # use only these predefined parameters
-    pcBits = Param.Unsigned(8, "number of PC bits used to index table")
+    pcBits = Param.Unsigned(12, "number of PC bits used to index table")
     historyLength = Param.Unsigned(16, "length of history register")
     # do not add any more!
 
@@ -160,7 +160,7 @@ class HybridBP(BranchPredictor):
     cxx_header = "cpu/pred/hybrid.hh"
 
     # use only these predefined parameters
-    pcBits = Param.Unsigned(3, "number of PC bits used to index PAp table")
+    pcBits = Param.Unsigned(12, "number of PC bits used to index PAp table")
     localHistoryLength = Param.Unsigned(4, "length of history register used by PAp")
     gshareHistoryLength = Param.Unsigned(16, "length of history register used by gshare")
     # do not add any more!
@@ -173,7 +173,7 @@ class PerceptronBP(BranchPredictor):
 
     # use only these predefined parameters
     pcBits = Param.Unsigned(3, "number of PC bits used to index table")
-    historyLength = Param.Unsigned(16, "length of history register")
+    historyLength = Param.Unsigned(4, "length of history register")
     # do not add any more!
 
 

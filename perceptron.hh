@@ -33,7 +33,23 @@ class PerceptronBP : public BPredUnit
     bool lastPrediction;
 
     // include any helper functions here
+    /**
+     * Helper function used to calculate perceptron output
+     * 
+     * Parameters:
+     *   - perceptron: weights representing the perceptron to use
+     * 
+     * Return:
+     *   - true if perceptron predicts true; false otherwise
+     */
     bool predictUsingPerceptron(int* perceptron);
+
+    /**
+     * Helper function to print perceptron weights for debugging
+     * 
+     * Parameters:
+     *  - perceptron: weights representing the perceptron to display
+     */
     void displayPerceptron(int* perceptron);
 
   public:

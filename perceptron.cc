@@ -14,7 +14,7 @@ PerceptronBP::PerceptronBP(const PerceptronBPParams *params)
     , historyLength(params->historyLength)
     // initialize other variables here
 {
-    // Initialize perceptron table
+    // Initialize perceptron table and history
     int tableLength = pow(2, pcBits);
     perceptronTable = new int*[tableLength];
     for (int i = 0; i < tableLength; i++) {
@@ -28,6 +28,7 @@ PerceptronBP::PerceptronBP(const PerceptronBPParams *params)
 
 bool
 PerceptronBP::predictUsingPerceptron(int* perceptron) {
+    // Calculate perceptron output for the current history
     int sum = 0;
     for (unsigned int i = 0; i < historyLength; i++) {
         int iWeight = perceptron[historyLength - i];
@@ -41,6 +42,7 @@ PerceptronBP::predictUsingPerceptron(int* perceptron) {
     // Constant weight
     sum += perceptron[0];
 
+    // Use perceptron value to predict branch
     lastPredictionValue = sum;
     if (sum > 0) {
         return true;
@@ -51,6 +53,7 @@ PerceptronBP::predictUsingPerceptron(int* perceptron) {
 
 void
 PerceptronBP::displayPerceptron(int* perceptron) {
+    // Display perceptron weights in order
     for (unsigned int i = 0; i < historyLength; i++) {
         std::cout << perceptron[historyLength - i] << " ";
     }
@@ -60,8 +63,11 @@ PerceptronBP::displayPerceptron(int* perceptron) {
 bool
 PerceptronBP::lookup(ThreadID tid, Addr branchAddr, void * &bpHistory)
 {
+    // Find correct perceptron
     int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
+
+    // Predict branch using correct perceptron
     lastPrediction = predictUsingPerceptron(perceptron);
     return lastPrediction;
 }
@@ -70,12 +76,13 @@ void
 PerceptronBP::update(ThreadID tid, Addr branchAddr, bool taken, void *bpHistory,
                  bool squashed, const StaticInstPtr & inst, Addr corrTarget)
 {
+    // Find correct perceptron
     int pcEnd = (branchAddr) & ((1 << pcBits) - 1);
     int* perceptron = perceptronTable[pcEnd];
 
-    // Training
+    // Train perceptron
     if ((lastPrediction != taken) || (unsigned int) abs(lastPredictionValue) <= trainingThreshold) {
-        // Train weights
+        // Train weights based on current history
         for (unsigned int i = 0; i < historyLength; i++) {
             bool iHistory = ((globalHistory >> i) % 2) != 0;
             if (taken == iHistory) {
